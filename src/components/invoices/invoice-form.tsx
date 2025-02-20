@@ -2,14 +2,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Alert,
-  AlertTitle,
-  Button,
-  InputAdornment,
-  MenuItem,
-  TextField,
-} from '@mui/material';
+import { Button, InputAdornment, MenuItem, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -20,6 +13,7 @@ import { generateInvoiceNumber } from '@/lib/utils';
 import type { InvoiceFormData } from '@/types';
 
 export function InvoiceForm() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   const [notification, setNotification] = useState<{
     show: boolean;
@@ -63,9 +57,9 @@ export function InvoiceForm() {
           "You can view and manage your invoice in the 'My Invoices' section.",
       });
 
-      setTimeout(() => {
-        router.push('/invoices/list');
-      }, 2000);
+      // setTimeout(() => {
+      //   router.push('/invoices/list');
+      // }, 2000);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setNotification({
@@ -78,144 +72,173 @@ export function InvoiceForm() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-8">
-      <div className="rounded-lg bg-white shadow-sm">
-        <div className="p-6">
-          <h2 className="mb-6 text-2xl font-semibold">Invoice Form</h2>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div>
-                <Controller
-                  name="name"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Name"
-                      fullWidth
-                      required
-                      error={!!errors.name}
-                      helperText={errors.name?.message}
-                      placeholder="Enter your invoice name"
-                      className="bg-white"
-                    />
-                  )}
-                />
-              </div>
-
-              <div>
-                <TextField
-                  fullWidth
-                  label="Number"
-                  value={generateInvoiceNumber()}
-                  disabled
-                  placeholder="Enter your invoice number"
-                  className="bg-gray-50"
-                />
-              </div>
-
-              <div>
-                <Controller
-                  name="dueDate"
-                  control={control}
-                  render={({ field: { value, onChange, ...field } }) => (
-                    <DatePicker
-                      {...field}
-                      label="Due Date"
-                      value={value}
-                      onChange={onChange}
-                      disablePast
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                          required: true,
-                          error: !!errors.dueDate,
-                          helperText: errors.dueDate?.message,
-                          className: 'bg-white',
-                        },
-                      }}
-                    />
-                  )}
-                />
-              </div>
-
-              <div>
-                <Controller
-                  name="amount"
-                  control={control}
-                  render={({ field: { onChange, ...field } }) => (
-                    <TextField
-                      {...field}
-                      type="number"
-                      label="Amount"
-                      fullWidth
-                      required
-                      error={!!errors.amount}
-                      helperText={errors.amount?.message}
-                      placeholder="Enter your invoice amount"
-                      onChange={(e) => onChange(Number(e.target.value))}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">Rp</InputAdornment>
-                        ),
-                      }}
-                      className="bg-white"
-                    />
-                  )}
-                />
-              </div>
-
-              <div className="md:col-span-2">
-                <Controller
-                  name="status"
-                  control={control}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      select
-                      label="Status"
-                      fullWidth
-                      required
-                      error={!!errors.status}
-                      helperText={errors.status?.message}
-                      className="bg-white"
-                    >
-                      <MenuItem value="paid">Paid</MenuItem>
-                      <MenuItem value="unpaid">Unpaid</MenuItem>
-                      <MenuItem value="pending">Pending</MenuItem>
-                    </TextField>
-                  )}
-                />
-              </div>
+    <>
+      <div className="w-full rounded-lg bg-white p-6 shadow-sm">
+        <h2 className="text-xl font-semibold">Invoice Form</h2>
+        <hr className="mb-6 mt-2" />
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium">
+                Name <span className="text-red-500">*</span>
+              </label>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    placeholder="Enter your invoice name"
+                    fullWidth
+                    variant="outlined"
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
+                    size="small"
+                    className="bg-white"
+                  />
+                )}
+              />
             </div>
 
-            <div className="flex justify-end pt-4">
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                className="rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
-              >
-                + Add Invoice
-              </Button>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium">
+                Number <span className="text-red-500">*</span>
+              </label>
+              <TextField
+                fullWidth
+                value={generateInvoiceNumber()}
+                disabled
+                placeholder="Enter your invoice number"
+                size="small"
+                variant="outlined"
+                className="bg-gray-50"
+              />
             </div>
-          </form>
-        </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium">
+                Due Date <span className="text-red-500">*</span>
+              </label>
+              <Controller
+                name="dueDate"
+                control={control}
+                render={({ field: { value, onChange, ...field } }) => (
+                  <DatePicker
+                    {...field}
+                    value={value}
+                    onChange={onChange}
+                    disablePast
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        size: 'small',
+                        placeholder: 'DD/MM/YYYY',
+                        error: !!errors.dueDate,
+                        helperText: errors.dueDate?.message,
+                      },
+                    }}
+                  />
+                )}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium">
+                Amount <span className="text-red-500">*</span>
+              </label>
+              <Controller
+                name="amount"
+                control={control}
+                render={({ field: { onChange, ...field } }) => (
+                  <TextField
+                    {...field}
+                    type="number"
+                    fullWidth
+                    placeholder="Enter your invoice amount"
+                    onChange={(e) => onChange(Number(e.target.value))}
+                    error={!!errors.amount}
+                    helperText={errors.amount?.message}
+                    size="small"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">Rp</InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium">
+                Status <span className="text-red-500">*</span>
+              </label>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    placeholder="Choose the status"
+                    error={!!errors.status}
+                    helperText={errors.status?.message}
+                    size="small"
+                  >
+                    <MenuItem value="paid">Paid</MenuItem>
+                    <MenuItem value="unpaid">Unpaid</MenuItem>
+                    <MenuItem value="pending">Pending</MenuItem>
+                  </TextField>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              variant="contained"
+              className="rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
+            >
+              + Add Invoice
+            </Button>
+          </div>
+        </form>
       </div>
 
       {notification?.show && (
-        <Alert
-          severity={notification.severity}
-          className={`mt-6 ${
-            notification.severity === 'success'
-              ? 'bg-green-50 text-green-800'
-              : 'bg-red-50 text-red-800'
-          }`}
-        >
-          <AlertTitle className="font-bold">{notification.message}</AlertTitle>
-          {notification.description}
-        </Alert>
+        <div className="mt-6 flex rounded-lg bg-green-50">
+          {/* Green line on the left */}
+          <div className="w-1.5 rounded-l-lg bg-green-500"></div>
+
+          {/* Content container */}
+          <div className="flex items-start gap-3 p-4">
+            <svg
+              className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-500"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div>
+              <p className="font-medium text-green-800">
+                {notification.message}
+              </p>
+              <p className="text-sm text-green-700">
+                {notification.description}
+              </p>
+            </div>
+          </div>
+        </div>
       )}
-    </div>
+    </>
   );
 }
