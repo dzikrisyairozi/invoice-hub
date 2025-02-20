@@ -22,6 +22,7 @@ import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { EditInvoiceModal } from '@/components/invoices/edit-invoice-modal';
 import { formatCurrency } from '@/lib/utils';
 import type { Invoice, InvoiceStatus } from '@/types';
 
@@ -42,6 +43,8 @@ export default function InvoicesListPage() {
   );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  // console.log(selectedInvoice, 'selectedInvoice');
 
   useEffect(() => {
     try {
@@ -86,7 +89,30 @@ export default function InvoicesListPage() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    setSelectedInvoice(null);
+    // setSelectedInvoice(null);
+  };
+
+  const handleEditInvoice = (updatedInvoice: Invoice) => {
+    try {
+      // Update the invoice in the local array
+      const newInvoices = invoices.map((invoice) =>
+        invoice.id === updatedInvoice.id ? updatedInvoice : invoice
+      );
+
+      // Save to localStorage
+      localStorage.setItem('invoices', JSON.stringify(newInvoices));
+
+      // Update both states
+      setInvoices(newInvoices);
+      setFilteredInvoices(newInvoices);
+
+      // Close modal and clear selection
+      setIsEditModalOpen(false);
+      setSelectedInvoice(null);
+      setAnchorEl(null);
+    } catch (error) {
+      console.error('Error updating invoice:', error);
+    }
   };
 
   const handleDeleteInvoice = () => {
@@ -209,12 +235,30 @@ export default function InvoicesListPage() {
         }}
       >
         <MenuItem
+          onClick={() => {
+            setIsEditModalOpen(true);
+            handleMenuClose();
+          }}
+        >
+          Edit Invoice
+        </MenuItem>
+        <MenuItem
           onClick={handleDeleteInvoice}
           className="text-red-600 hover:bg-red-50"
         >
           Delete Invoice
         </MenuItem>
       </Menu>
+
+      <EditInvoiceModal
+        open={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedInvoice(null);
+        }}
+        invoice={selectedInvoice}
+        onSave={handleEditInvoice}
+      />
     </div>
   );
 }
