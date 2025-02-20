@@ -23,6 +23,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { EditInvoiceModal } from '@/components/invoices/edit-invoice-modal';
+import { useToast } from '@/hooks/use-toast';
 import { formatCurrency } from '@/lib/utils';
 import type { Invoice, InvoiceStatus } from '@/types';
 
@@ -44,6 +45,7 @@ export default function InvoicesListPage() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const { toast } = useToast();
   // console.log(selectedInvoice, 'selectedInvoice');
 
   useEffect(() => {
@@ -106,11 +108,21 @@ export default function InvoicesListPage() {
       setInvoices(newInvoices);
       setFilteredInvoices(newInvoices);
 
+      toast({
+        title: 'Invoice updated successfully',
+        description: 'Invoice updated successfully',
+      });
+
       // Close modal and clear selection
       setIsEditModalOpen(false);
       setSelectedInvoice(null);
       setAnchorEl(null);
     } catch (error) {
+      toast({
+        title: 'Error updating invoice',
+        description: 'Error updating invoice',
+        variant: 'destructive',
+      });
       console.error('Error updating invoice:', error);
     }
   };
@@ -120,6 +132,10 @@ export default function InvoicesListPage() {
       const newInvoices = invoices.filter((i) => i.id !== selectedInvoice.id);
       localStorage.setItem('invoices', JSON.stringify(newInvoices));
       setInvoices(newInvoices);
+      toast({
+        title: 'Invoice deleted successfully',
+        description: 'Invoice deleted successfully',
+      });
       handleMenuClose();
     }
   };
