@@ -1,155 +1,124 @@
-# Next.js + shadcn/ui Starter Kit
+# Invoice Hub
 
-A modern, feature-rich starter template built with Next.js 15, Tailwind CSS, TypeScript, and shadcn/ui components.
+A modern invoice management application built with Next.js, Material-UI, and TypeScript, featuring local storage persistence.
 
 ## Features
 
-- 🚀 Next.js 15 with App Router
-- 💅 shadcn/ui Components (40+ pre-built components)
-- 🎨 Tailwind CSS for styling
-- 📝 TypeScript for type safety
-- 🌙 Dark mode support
-- 🧩 Component showcase page
-- 🔍 ESLint and Prettier for code quality
-- 🪝 Husky for Git hooks
-- 📜 Commitlint for consistent commit messages
-- 🔄 GitHub Actions CI/CD workflow
-- ✅ Automated branch checks and tests
-- 📱 Fully responsive design
-- 🎯 Path aliases (@/ based imports)
-- 📦 Organized project structure
+- 📊 Invoice Management (Create, Edit, Delete)
+- 💰 Payment Status Tracking
+- 🔍 Search & Filter Capabilities
+- 📱 Responsive Design
+- 🌙 Material-UI Components
+- 💾 Local Storage Persistence
+
+## Technical Decisions
+
+1. **Material-UI**: Chosen for its comprehensive component library and consistent design system.
+2. **Local Storage**: Used for data persistence without backend complexity.
+3. **React Hook Form**: Implemented for efficient form handling and validation.
+4. **Zod**: Selected for robust type-safe schema validation.
+5. **TypeScript**: Ensures type safety and better developer experience.
 
 ## Prerequisites
 
 - Node.js 18+
-- pnpm (recommended) or npm
+- pnpm
 
 ## Getting Started
 
-You can start using this template in two ways:
+1. Clone the repository:
 
-1. Use as template via GitHub web interface:
+```
+git clone https://github.com/yourusername/invoice-hub.git
+```
 
-   - Visit https://github.com/dzikrisyairozi/next-shadcn-ui-starter
-   - Click the "Use this template" button
-   - Choose "Create a new repository"
-   - Follow the prompts to create your repository
+2. Install dependencies:
 
-2. Create from template using CLI:
+```
+cd invoice-hub
+pnpm install
+```
 
-   ```bash
-   npx create-next-app@latest your-app-name -e https://github.com/dzikrisyairozi/next-shadcn-ui-starter
-   ```
+3. Run the development server:
 
-   or clone the repository:
+```
+pnpm run dev
+```
 
-   ```bash
-   git clone https://github.com/dzikrisyairozi/next-shadcn-ui-starter.git
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   pnpm install
-   ```
-
-4. Run the development server:
-
-   ```bash
-   pnpm dev
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 
-````
-next-shadcn-ui-starter/
-├── src/
-│ ├── app/ # App router pages
-│ ├── components/ # React components
-│ │ └── ui/ # shadcn/ui components
-│ ├── hooks/ # Custom React hooks
-│ └── lib/ # Utility functions
-├── public/ # Static files
-├── styles/ # Global styles
-└── ```config files
-````
-
-## Available Scripts
-
-```bash
-pnpm dev        # Start development server
-pnpm build      # Build for production
-pnpm start      # Start production server
-pnpm lint       # Run ESLint
-pnpm lint:fix   # Fix ESLint errors
-pnpm format     # Format code with Prettier
+```
+src/
+  app/              # Next.js 13 app directory
+    invoices/       # Invoice feature routes
+      add/          # Add invoice page
+        page.tsx    # Add invoice form page
+      list/         # Invoice list page
+        page.tsx    # Invoice listing and management
+  components/       # Reusable React components
+    invoices/       # Invoice-specific components
+  constants/        # Application constants and enums
+  lib/              # Core library code
+    schemas/        # Zod validation schemas
+    types/          # TypeScript type definitions
+  hooks/            # Custom React hooks
+  utils/            # Utility functions and helpers
 ```
 
-## Components Showcase
+## Key Features
 
-Visit `/sandbox` route to explore all available components. Components are organized into categories:
+### Invoice Management
 
-- Form Inputs
-- Layout
-- Navigation
-- Feedback
-- Data Display
-- Overlay
+- Create new invoices with detailed information
+- Edit existing invoices
+- Delete unwanted invoices
+- View invoice history
 
-## Customization
+### Search and Filter
 
-### Styling
+- Search by invoice name or number
+- Filter by payment status
+- Sort by date or amount
 
-1. Modify `globals.css` for global styles
-2. Update `tailwind.config.ts` for Tailwind configuration
-3. Edit component-specific styles in their respective files
+### Data Persistence
 
-### Theme
+- Local storage implementation
+- Automatic data saving
+- Data recovery on page reload
 
-The default theme can be customized in `src/app/globals.css`:
+## State Management
 
-- Light/dark mode colors
-- Border radius
-- Animations
-- Typography
+- Uses React's useState for local state management
+- Implements useEffect for filtering and persistence
+- Leverages localStorage for data persistence
 
-### Adding New Components
+## Form Validation
 
-1. Use shadcn/ui CLI to add new components:
-
-```bash
-pnpm dlx shadcn-ui@latest add button
-```
-
-2. Components will be added to `src/components/ui/`
-
-## Best Practices
-
-- Use TypeScript for type safety
-- Follow the established project structure
-- Utilize path aliases for imports
-- Keep components modular and reusable
-- Use Prettier and ESLint for code consistency
+- Zod schemas ensure type-safe validation
+- React Hook Form handles form state and submission
+- Custom validation messages for better user experience
 
 ## Contributing
 
 1. Fork the repository
-2. Create a new branch
-3. Make your changes
-4. Submit a pull request
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Submit a pull request
 
 ## License
 
-MIT License - feel free to use this starter kit for any project.
-
-## Acknowledgments
-
-- [shadcn/ui](https://ui.shadcn.com/) for the beautiful components
-- [Next.js](https://nextjs.org/) team for the amazing framework
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
+MIT License - feel free to use this project for any purpose.
 
 ## Support
 
 For support, please open an issue in the GitHub repository.
+
+## Acknowledgments
+
+- Next.js team for the amazing framework
+- Material-UI for the component library
+- React Hook Form for form handling
+- Zod for schema validation
