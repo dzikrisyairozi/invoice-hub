@@ -12,6 +12,8 @@ import { invoiceFormSchema } from '@/lib/schemas/invoice';
 import { generateInvoiceNumber } from '@/lib/utils';
 import type { InvoiceFormData } from '@/types';
 
+import { AlertNotification } from '../ui/alert-notification';
+
 export function InvoiceForm() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const router = useRouter();
@@ -57,9 +59,9 @@ export function InvoiceForm() {
           "You can view and manage your invoice in the 'My Invoices' section.",
       });
 
-      // setTimeout(() => {
-      //   router.push('/invoices/list');
-      // }, 2000);
+      setTimeout(() => {
+        router.push('/invoices/list');
+      }, 2000);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       setNotification({
@@ -208,36 +210,12 @@ export function InvoiceForm() {
       </div>
 
       {notification?.show && (
-        <div className="mt-6 flex rounded-lg bg-green-50">
-          {/* Green line on the left */}
-          <div className="w-1.5 rounded-l-lg bg-green-500"></div>
-
-          {/* Content container */}
-          <div className="flex items-start gap-3 p-4">
-            <svg
-              className="mt-0.5 h-5 w-5 flex-shrink-0 text-green-500"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <div>
-              <p className="font-medium text-green-800">
-                {notification.message}
-              </p>
-              <p className="text-sm text-green-700">
-                {notification.description}
-              </p>
-            </div>
-          </div>
-        </div>
+        <AlertNotification
+          show={notification?.show}
+          variant={notification?.severity || 'success'}
+          title={notification?.message || ''}
+          description={notification?.description}
+        />
       )}
     </>
   );
